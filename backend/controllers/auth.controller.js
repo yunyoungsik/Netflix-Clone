@@ -1,5 +1,6 @@
-import bcryptjs from "bcryptjs"
+import bcryptjs from 'bcryptjs';
 import { User } from '../models/user.model.js';
+import { generateTokenAndSetCookie } from '../utils/generateToken.js';
 
 export async function signup(req, res) {
   try {
@@ -33,7 +34,7 @@ export async function signup(req, res) {
       return res.status(400).json({ success: false, message: 'Username already exists' });
     }
 
-    const salt = await bcryptjs.genSalt(10)
+    const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
     const PROFILE_PICS = ['/avatar1.png', '/avatar2.png', '/avatar3.png'];
@@ -47,6 +48,7 @@ export async function signup(req, res) {
       image,
     });
 
+    generateTokenAndSetCookie(newUser._id, res);
     await newUser.save();
 
     // response에서 비밀번호를 제거
@@ -64,9 +66,44 @@ export async function signup(req, res) {
 }
 
 export async function login(req, res) {
-  res.send('Login');
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'All fields are reqired' });
+    }
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Invalid credentials' });
+    }
+
+    const isPasswordCoreect = await bcryptjs.compare(password, user.password);
+    if (!isPasswordCoreect) {
+      return res.status(400).json({ success: false, message: 'Invalid credentials' });
+    }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(200).json({
+      success: true,
+      user: {
+        ...user._doc,
+        password: '',
+      },
+    });
+  } catch (error) {
+    console.log('Error in login controller', error.message);
+    res.status(500).json({ success: false, message: 'Internal server Error' });
+  }
 }
 
 export async function logout(req, res) {
-  res.send('Logout');
+  try {
+    res.clearCookie('jwt-netflix');
+    res.status(200).json({ success: true, message: 'Logged out successfully' });
+  } catch (error) {
+    console.log('Error in logout controller', error.message);
+    res.status(500).json({ success: false, message: 'Internal server Error' });
+  }
 }
