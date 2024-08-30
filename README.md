@@ -2,7 +2,7 @@
 
 [참고영상](https://youtu.be/gRroBZczKAU?si=pHYTPM9TzZg_3B2d)
 
-## 설치
+## backend
 
 ```
 npm init -y
@@ -20,4 +20,12 @@ npm i nodemon -D
  "scripts": {
     "dev": "nodemon backend/server.js"
   },
+```
+
+## frontedn
+```
+npm create vite@latest .
+npm i axios lucide-react react-player react-hot-toast react-router-dom zustand
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 ```
