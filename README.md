@@ -28,4 +28,5 @@ npm create vite@latest .
 npm i axios lucide-react react-player react-hot-toast react-router-dom zustand
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
+npm i tailwind-scrollbar-hide
 ```
