@@ -1,4 +1,5 @@
 # Netflix Clone
+<img style="width: 100%" src="https://github.com/yunyoungsik/Netflix-Clone/blob/main/frontend/public/thumnail.png?raw=true" />
 
 [참고영상](https://youtu.be/gRroBZczKAU?si=pHYTPM9TzZg_3B2d)
 
