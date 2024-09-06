@@ -9,6 +9,6 @@ router.get('/tv/:query', searchTv);
 
 router.get('/history', getSearchHistory);
 
-router.get('/history/:id', removeItemFromSearchHistory);
+router.delete('/history/:id', removeItemFromSearchHistory);
 
 export default router;

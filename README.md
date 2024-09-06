@@ -7,6 +7,7 @@
 ```
 npm init -y
 npm i express jsonwebtoken mongoose cookie-parser dotenv axios bcryptjs
+npm install cross-env
 ```
 
 ```
@@ -19,6 +20,22 @@ npm i express jsonwebtoken mongoose cookie-parser dotenv axios bcryptjs
 npm i nodemon -D
  "scripts": {
     "dev": "nodemon backend/server.js"
+  },
+```
+
+배포 단계에서 package.json 변경사항
+```
+"scripts": {
+    "dev": "NODE_ENV=development nodemon backend/server.js",
+    "start": "NODE_ENV=production node backend/server.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+  },
+
+*window환경에서는 cross-env를 설치 후 아래와 같이 변경
+"scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon backend/server.js",
+    "start": "cross-env NODE_ENV=production node backend/server.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
 ```
 
